@@ -1,0 +1,48 @@
+flowchart TD
+    subgraph Cloudflare
+        CDN["Content Delivery Network (CDN)"]
+        WAF["Web Application Firewall (WAF)"]
+    end
+
+    subgraph AWS
+        WebApp["Web Application (Frontend)"]
+        APIGateway["API Gateway"]
+        BackendServices["Backend Services (Auto Scaling Group)"]
+        OrderMatching["Order Matching Engine"]
+        UserData["User Data (RDS)"]
+        TransactionData["Transaction Data (DynamoDB)"]
+        OrderQueue["Order Queue (SQS)"]
+        WalletService["Wallet Service (Lambda Functions)"]
+        BlockchainNodes["Blockchain Nodes (EC2 Instances)"]
+        EventListener["Event Listener (Lambda Function)"]
+        EventStream["Event Stream (Amazon Kinesis)"]
+        DataProcessor["Data Processor (Lambda Function)"]
+        IndexedDataStore["Indexed Data Store (DynamoDB)"]
+        SearchInterface["Search Interface (OpenSearch Service)"]
+        Monitoring["Monitoring & Logging (CloudWatch)"]
+        SecurityServices["Security Services (IAM, KMS)"]
+    end
+
+    CDN --> WAF
+    WAF --> WebApp
+    WebApp --> APIGateway
+    APIGateway --> BackendServices
+    BackendServices --> OrderMatching
+    OrderMatching --> OrderQueue
+    OrderQueue --> TransactionData
+    OrderMatching --> WalletService
+    WalletService --> BlockchainNodes
+    APIGateway --> UserData
+    BackendServices --> Monitoring
+    WebApp --> Monitoring
+    BackendServices --> SecurityServices
+    WebApp --> SecurityServices
+    BlockchainNodes --> EventListener
+    EventListener --> EventStream
+    EventStream --> DataProcessor
+    DataProcessor --> IndexedDataStore
+    IndexedDataStore --> SearchInterface
+    EventListener --> Monitoring
+    DataProcessor --> Monitoring
+    EventListener --> SecurityServices
+    DataProcessor --> SecurityServices
